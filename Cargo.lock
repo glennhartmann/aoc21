@@ -64,10 +64,16 @@ dependencies = [
 name = "aoc21"
 version = "0.0.1"
 dependencies = [
+ "aoclib-rs",
  "clap",
  "once_cell",
  "regex",
 ]
+
+[[package]]
+name = "aoclib-rs"
+version = "0.0.1"
+source = "git+https://github.com/glennhartmann/aoclib-rs.git?tag=v0.0.1#6331f7eaeaaeca6185c296ba5d5630cd1061e4b9"
 
 [[package]]
 name = "clap"

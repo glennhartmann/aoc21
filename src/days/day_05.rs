@@ -4,7 +4,7 @@ use std::{
     io::{BufWriter, Write},
 };
 
-use crate::common::{fwd_rev_incl_range, printwriteln};
+use aoclib_rs::{fwd_rev_incl_range, printwriteln};
 
 const WIDTH: usize = 1000;
 const HEIGHT: usize = 1000;

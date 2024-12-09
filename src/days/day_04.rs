@@ -4,7 +4,7 @@ use std::{
     io::{BufWriter, Write},
 };
 
-use crate::common::printwriteln;
+use aoclib_rs::printwriteln;
 
 use {once_cell::sync::Lazy, regex::Regex};
 
