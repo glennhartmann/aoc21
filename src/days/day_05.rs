@@ -1,10 +1,9 @@
 use std::{
     fmt,
-    fs::{read_to_string, File},
     io::{BufWriter, Write},
 };
 
-use aoclib_rs::{fwd_rev_incl_range, printwriteln};
+use aoclib_rs::{fwd_rev_incl_range, prep_io, printwriteln};
 
 const WIDTH: usize = 1000;
 const HEIGHT: usize = 1000;
@@ -89,17 +88,9 @@ impl fmt::Display for Segment {
 type Grid = Vec<Vec<usize>>;
 
 pub fn run() {
-    let write_file = File::create("outputs/05.txt").unwrap();
-    let mut writer = BufWriter::new(&write_file);
-
-    let contents = read_to_string("inputs/05.txt").unwrap();
-    let contents = contents.split('\n');
-    let contents: Vec<&str> = contents.filter(|line| !line.is_empty()).collect();
-
-    let mut segments = Vec::new();
-    for line in contents {
-        segments.push(Segment::new(line));
-    }
+    let mut contents = String::new();
+    let (mut writer, contents) = prep_io(&mut contents, 5).unwrap();
+    let segments: Vec<_> = contents.iter().map(|line| Segment::new(line)).collect();
 
     part1(&mut writer, &segments);
     part2(&mut writer, &segments);

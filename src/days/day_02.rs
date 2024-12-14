@@ -1,22 +1,16 @@
-use std::{
-    fs::{read_to_string, File},
-    io::{BufWriter, Write},
-};
+use std::io::{BufWriter, Write};
 
-use aoclib_rs::printwriteln;
+use aoclib_rs::{prep_io, printwriteln};
 
 pub fn run() {
-    let write_file = File::create("outputs/02.txt").unwrap();
-    let mut writer = BufWriter::new(&write_file);
-
-    let contents = read_to_string("inputs/02.txt").unwrap();
-    let contents = contents.split('\n');
+    let mut contents = String::new();
+    let (mut writer, contents) = prep_io(&mut contents, 2).unwrap();
 
     part1(&mut writer, contents.clone());
     part2(&mut writer, contents);
 }
 
-fn part1<W: Write>(writer: &mut BufWriter<W>, contents: std::str::Split<'_, char>) {
+fn part1<W: Write>(writer: &mut BufWriter<W>, contents: Vec<&str>) {
     let mut horizontal = 0;
     let mut depth = 0;
     for line in contents {
@@ -39,15 +33,11 @@ fn part1<W: Write>(writer: &mut BufWriter<W>, contents: std::str::Split<'_, char
     printwriteln!(writer, "part 1: {}", horizontal * depth).unwrap();
 }
 
-fn part2<W: Write>(writer: &mut BufWriter<W>, contents: std::str::Split<'_, char>) {
+fn part2<W: Write>(writer: &mut BufWriter<W>, contents: Vec<&str>) {
     let mut horizontal = 0;
     let mut depth = 0;
     let mut aim = 0;
     for line in contents {
-        if line.is_empty() {
-            continue;
-        }
-
         let mut lsp = line.split(" ");
         let cmd = lsp.next().unwrap();
         let magnitude = lsp.next().unwrap().parse::<i32>().unwrap();

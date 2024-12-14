@@ -1,19 +1,15 @@
 use std::{
     cmp::Ordering,
-    fs::{read_to_string, File},
     io::{BufWriter, Write},
     str,
 };
 
-use aoclib_rs::printwriteln;
+use aoclib_rs::{prep_io, printwriteln};
 
 pub fn run() {
-    let write_file = File::create("outputs/03.txt").unwrap();
-    let mut writer = BufWriter::new(&write_file);
-
-    let contents = read_to_string("inputs/03.txt").unwrap();
-    let contents = contents.split('\n');
-    let contents: Vec<&[u8]> = contents.map(|s| s.as_bytes()).collect();
+    let mut contents = String::new();
+    let (mut writer, contents) = prep_io(&mut contents, 3).unwrap();
+    let contents: Vec<&[u8]> = contents.iter().map(|s| s.as_bytes()).collect();
 
     part1(&mut writer, &contents);
     part2(&mut writer, &contents);
@@ -44,7 +40,7 @@ fn part2<W: Write>(writer: &mut BufWriter<W>, contents: &[&[u8]]) {
             Ordering::Equal => b'1',
         };
         if o2.len() > 1 {
-            o2.retain(|n| !n.is_empty() && n[i] == o2_most_common);
+            o2.retain(|n| n[i] == o2_most_common);
         }
 
         let (co2_zeros, co2_ones) = count_zeros_and_ones_at_position(&co2, i);
@@ -54,7 +50,7 @@ fn part2<W: Write>(writer: &mut BufWriter<W>, contents: &[&[u8]]) {
             Ordering::Equal => b'0',
         };
         if co2.len() > 1 {
-            co2.retain(|d| !d.is_empty() && d[i] == co2_most_common);
+            co2.retain(|d| d[i] == co2_most_common);
         }
     }
 
@@ -67,10 +63,6 @@ fn count_zeros_and_ones_at_position(contents: &Vec<&[u8]>, i: usize) -> (u32, u3
     let mut zeros = 0;
     let mut ones = 0;
     for n in contents {
-        if n.is_empty() {
-            continue;
-        }
-
         match n[i] {
             b'0' => zeros += 1,
             b'1' => ones += 1,

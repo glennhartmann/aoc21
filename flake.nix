@@ -17,7 +17,7 @@
           cargoLock = {
             lockFile = ./Cargo.lock;
             outputHashes = {
-              "aoclib-rs-0.0.1" = "sha256-I0QggW7I4/iLh6qdM2+npldlGaPUR1NSLXxq/nga+Kw=";
+              "aoclib-rs-0.0.4" = "sha256-gE/n9TYnlL9sWUcaZ/PDeyfnm5YK76Zu3yMJyDlNW5U=";
             };
           };
         };

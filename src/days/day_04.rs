@@ -1,10 +1,9 @@
 use std::{
     fmt,
-    fs::{read_to_string, File},
     io::{BufWriter, Write},
 };
 
-use aoclib_rs::printwriteln;
+use aoclib_rs::{prep_io, printwriteln, split_and_parse};
 
 use {once_cell::sync::Lazy, regex::Regex};
 
@@ -94,12 +93,12 @@ impl BingoBoard {
         for r in self.grid {
             for c in r {
                 if !c.marked {
-                    unmarked_sum += <u8 as Into<u32>>::into(c.val);
+                    unmarked_sum += c.val as u32;
                 }
             }
         }
 
-        unmarked_sum * <u8 as Into<u32>>::into(self.last_marked)
+        unmarked_sum * self.last_marked as u32
     }
 }
 
@@ -117,22 +116,14 @@ impl fmt::Display for BingoBoard {
 }
 
 pub fn run() {
-    let write_file = File::create("outputs/04.txt").unwrap();
-    let mut writer = BufWriter::new(&write_file);
-
-    let contents = read_to_string("inputs/04.txt").unwrap();
-    let contents = contents.split('\n');
-    let contents: Vec<&str> = contents.collect();
-
-    let numbers: Vec<u8> = contents[0]
-        .split(',')
-        .map(|v| v.parse::<u8>().unwrap())
-        .collect();
+    let mut contents = String::new();
+    let (mut writer, contents) = prep_io(&mut contents, 4).unwrap();
+    let numbers: Vec<u8> = split_and_parse(contents[0], ",").unwrap();
 
     let mut contents = &contents[2..];
     let mut bingo_boards = Vec::new();
     loop {
-        if contents.len() < HEIGHT {
+        if contents.len() <= HEIGHT {
             break;
         }
 
